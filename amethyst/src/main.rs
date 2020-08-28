@@ -1,4 +1,7 @@
+mod pong;
+
 use amethyst::{
+    core::TransformBundle,
     prelude::*,
     renderer::{
         plugins::{RenderFlat2D, RenderToWindow},
@@ -7,11 +10,7 @@ use amethyst::{
     },
     utils::application_root_dir,
 };
-
-
-pub struct Pong;
-
-impl SimpleState for Pong {}
+use crate::pong::Pong;
 
 
 fn main() -> amethyst::Result<()> {
@@ -23,6 +22,8 @@ fn main() -> amethyst::Result<()> {
 
     // Build game configuration
     let game_data = GameDataBuilder::default()
+        // Add the transform bundle which handles tracking entity positions
+        .with_bundle(TransformBundle::new())?
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 // The RenderToWindow plugin provides all the scaffolding for opening a window and drawing on it

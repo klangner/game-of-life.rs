@@ -1,7 +1,9 @@
 mod pong;
+mod systems;
 
 use amethyst::{
     core::TransformBundle,
+    input::{InputBundle, StringBindings},
     prelude::*,
     renderer::{
         plugins::{RenderFlat2D, RenderToWindow},
@@ -19,11 +21,16 @@ fn main() -> amethyst::Result<()> {
     // Lets read config files
     let app_root = application_root_dir()?;
     let display_config_path = app_root.join("config").join("display-pong.ron");
+    let binding_path = app_root.join("config").join("bindings.ron");
+    let input_bundle = InputBundle::<StringBindings>::new()
+        .with_bindings_from_file(binding_path)?;
 
     // Build game configuration
     let game_data = GameDataBuilder::default()
         // Add the transform bundle which handles tracking entity positions
         .with_bundle(TransformBundle::new())?
+        .with_bundle(input_bundle)?
+        .with(systems::PaddleSystem, "paddle_system", &["input_system"])
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 // The RenderToWindow plugin provides all the scaffolding for opening a window and drawing on it

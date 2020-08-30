@@ -1,5 +1,5 @@
 [package]
-name = "gol-amethyst"
+name = "amethyst-pong"
 version = "0.1.0"
 authors = ["klangner <klangner@gmail.com>"]
 edition = "2018"
